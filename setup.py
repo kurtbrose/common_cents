@@ -10,6 +10,7 @@ setup(
     packages=find_packages('common_cents'),
     package_dir={'': 'common_cents'},
     url='https://github.com/kurtbrose/common_cents',
+    python_requires='>=3.6',
     keywords='',
     install_requires=[],
 )
