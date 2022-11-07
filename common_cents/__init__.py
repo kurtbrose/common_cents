@@ -95,7 +95,7 @@ def closest_round_division(numbers: list[int], fractions: list[float]) -> list[l
     such that each bill is completely paid for, but also each individual will end up paying
     exactly $10 in the end, even though on each individual bill they are paying different amounts.
 
-    >>> closest_round_division([1000, 1000, 1000], [1/1, 1/3, 1/3])
+    >>> closest_round_division([1000, 1000, 1000], [1/3, 1/3, 1/3])
     [[333, 333, 334],
      [333, 334, 333],
      [334, 333, 333]]
@@ -133,8 +133,7 @@ def closest_round_division(numbers: list[int], fractions: list[float]) -> list[l
             exact = frac * number
             truncated = int(exact)  # truncate the amount to an integer
             row.append(truncated)  # put the truncated amount in the row
-            indexed_col_errors[idx][0] += exact - \
-                truncated  # accumulate the column error
+            indexed_col_errors[idx][0] += exact - truncated  # accumulate the column error
         # if there is "extra" left over, distribute it among the columns to minimize the overall error
         exact_sum = number * scale_factor
         remainder = int(exact_sum) - sum(row)
