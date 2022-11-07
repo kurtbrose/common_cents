@@ -7,7 +7,18 @@ closest_round_division() is the core algorithm, surrounded by various helpers.
 import typing
 
 
-def refund(charge: list[int], refunds: list[int]) -> list[list[int]]:
+def col_sum(distribution: list[list[int]]) -> list[int]:
+    """
+    Helper function for creating a column-wise sum of a list-of-lists-of-ints.
+    """
+    sums = [0] * len(distribution[0])
+    for row in distribution:
+        for idx in range(len(row)):
+            sums[idx] += row[idx]
+    return sums
+
+
+def refund(refunds: list[int], charge: list[int]) -> list[list[int]]:
     """
     Given a charge that was divided into multiple sub-amounts (e.g. cost and tax
     for each item, or which account is responsible for how much of the charge),
@@ -16,6 +27,12 @@ def refund(charge: list[int], refunds: list[int]) -> list[list[int]]:
 
     >>> refund([100, 4], [75])
     [75, 3]
+
+    This is good in particular for a refund, because calculating a refund using
+    this function ensures that when the full amount is refunded, each allocation
+    will go down to 0.  If the original distribution is not know (for example,
+    because the allocation percentages or tax rate at the time of the original
+    transaction was not stored), this allows a refund to be calculated regardless.
     """
     total = sum(charge)
     fractions = [allocation / total for allocation in charge]
@@ -29,7 +46,7 @@ def split(amounts: typing.Union[int, list[int]], shares) -> typing.Union[int, li
     >>> split(2, [50, 50])
     [1, 1]
 
-    The exact scale of shares doesn't matter.
+    The scale of shares doesn't matter, only their relative proportions.
     """
     total = sum(shares)
     fractions = [share / total for share in shares]
